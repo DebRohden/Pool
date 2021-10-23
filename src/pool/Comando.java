@@ -12,7 +12,7 @@ public abstract class Comando{
     protected String sComando = "";
     protected String[] aParametro;  
     protected String sValidacao = "";
-    protected static ArrayList<Thread> aThreads = new ArrayList();
+    protected static ArrayList<MinhaThread> aThreads = new ArrayList();
     protected String sNome = "";
     
     public Comando(String comando) {

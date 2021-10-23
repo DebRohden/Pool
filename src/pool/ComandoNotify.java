@@ -13,6 +13,12 @@ public class ComandoNotify extends Comando {
     
     public ComandoNotify(String comando) {
         super(comando);
+        if(this.valida()){
+            this.executa();
+        }
+        else {
+            System.out.println("Comando inválido");
+        }
     }
     
     @Override
@@ -21,13 +27,26 @@ public class ComandoNotify extends Comando {
         if(this.aParametro.length == 2){
             bValida = validaTexto(this.aParametro[1]);
             if(!bValida){
-                this.sValidacao += "O parametro informado não é um texto";
+                System.out.println("O parametro informado não é um texto");
             }
         }
         else {
-            this.sValidacao = "O(s) parametros informados não é(são) valido(s).";
+            System.out.println("O(s) parametros informados não é(são) valido(s).");
         }
         return bValida;
+    }
+    
+    public void executa(){
+        for (MinhaThread oThread : this.aThreads) {
+            if (this.aParametro[1].equals(oThread.getName())) {
+                synchronized (oThread) {
+                    if (oThread.isAlive()) {
+                        oThread.setWait(false);
+                        oThread.notify();
+                    }
+                }
+            }
+        }
     }
 
 }

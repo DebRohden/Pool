@@ -14,7 +14,10 @@ public class ComandoWait extends Comando {
     public ComandoWait(String comando) {
         super(comando);
         if(this.valida()){
-            
+            this.executa();
+        }
+        else {
+            System.out.println("Comando inválido");
         }
     } 
     
@@ -24,13 +27,22 @@ public class ComandoWait extends Comando {
         if(this.aParametro.length == 2){
             bValida = validaTexto(this.aParametro[1]);
             if(!bValida){
-                this.sValidacao = "O parametro informado não é um texto.";
+                System.out.println("O parametro informado não é um texto.");
             }
         }
         else {
-            this.sValidacao = "O(s) parametros informados não é(são) valido(s).";
+            System.out.println("O(s) parametros informados não é(são) valido(s).");
         }
         return bValida;
     }
-
+    
+    public void executa(){
+         for (MinhaThread thread : this.aThreads) {
+                if (this.aParametro[1].equals(thread.getName())) {
+                    if (thread.isAlive()) {
+                        thread.setWait(true);
+                    }
+                }
+            }
+    }
 }
